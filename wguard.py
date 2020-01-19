@@ -54,7 +54,7 @@ def unblock(domain_name):
 			hosts_file.write(hosts_file_line + "\n")
 	
 
-parser = argparse.ArgumentParser(description="Easily block websites on your computer!")
+parser = argparse.ArgumentParser(description="Easily block websites!")
 args_group = parser.add_mutually_exclusive_group()
 args_group.add_argument("-b", dest="block", nargs='+', help="Block a website")
 args_group.add_argument("-u", dest="unblock", nargs='+', help="Unblock a wesbite")
