@@ -10,6 +10,6 @@ class Wguard < Formula
   end
 
   test do
-    system "false"
+    system bin/"wguard"
   end
 end
