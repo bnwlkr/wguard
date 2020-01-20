@@ -71,32 +71,36 @@ def unblock(domain_name):
 	if not logged_unblock:
 		print(bcolors.OKBLUE + "wguard wasn't blocking %s" % domain_name + bcolors.ENDC)
 	
+def main():
+	parser = argparse.ArgumentParser(description="Easily block websites on Mac")
+	parser.add_argument("-b", dest="block", nargs='+', help="Block a website")
+	parser.add_argument("-u", dest="unblock", nargs='+', help="Unblock a wesbite")
+	parser.add_argument("-l", dest="ls", action='store_true', help="List blocked websites")
 
-parser = argparse.ArgumentParser(description="Easily block websites on Mac")
-parser.add_argument("-b", dest="block", nargs='+', help="Block a website")
-parser.add_argument("-u", dest="unblock", nargs='+', help="Unblock a wesbite")
-parser.add_argument("-l", dest="ls", action='store_true', help="List blocked websites")
+	if len(sys.argv) == 1:
+		parser.print_help(sys.stderr)
+		sys.exit(1)
 
-if len(sys.argv) == 1:
-	parser.print_help(sys.stderr)
-	sys.exit(1)
+	args = parser.parse_args()
 
-args = parser.parse_args()
+	try:
+		if args.block:
+			for domain_name in args.block:
+				block(domain_name)
+				
+		if args.unblock:
+			for domain_name in args.unblock:
+				unblock(domain_name)
+		
+		if args.ls:
+			list_blocked()
+		
+	except IOError as error:
+		if error.errno != 13:
+			raise error
+		else:
+			print("wguard needs to run as root:\n\n\t %ssudo wguard %s%s\n" % (bcolors.HEADER, " ".join(sys.argv[1:]), bcolors.ENDC))
 
-try:
-	if args.block:
-		for domain_name in args.block:
-			block(domain_name)
-			
-	if args.unblock:
-		for domain_name in args.unblock:
-			unblock(domain_name)
-	
-	if args.ls:
-		list_blocked()
-	
-except IOError as error:
-	if error.errno != 13:
-		raise error
-	else:
-		print("wguard needs to run as root:\n\n\t %ssudo wguard %s%s\n" % (bcolors.HEADER, " ".join(sys.argv[1:]), bcolors.ENDC))
+if __name__ == "__main__":
+	main()
+
