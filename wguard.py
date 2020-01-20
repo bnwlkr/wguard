@@ -72,7 +72,7 @@ def unblock(domain_name):
 		print(bcolors.OKBLUE + "wguard wasn't blocking %s" % domain_name + bcolors.ENDC)
 	
 def main():
-	parser = argparse.ArgumentParser(description="Easily block websites on Mac")
+	parser = argparse.ArgumentParser(description=bcolors.HEADER + "Easily Block Websites on macOS" + bcolors.ENDC)
 	parser.add_argument("-b", dest="block", nargs='+', help="Block a website")
 	parser.add_argument("-u", dest="unblock", nargs='+', help="Unblock a wesbite")
 	parser.add_argument("-l", dest="ls", action='store_true', help="List blocked websites")

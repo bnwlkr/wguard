@@ -1,8 +1,8 @@
 class Wguard < Formula
-  desc "Easily Block Websites on Mac"
+  desc "Easily Block Websites on macOS"
   homepage "https://github.com/bnwlkr/wguard"
-  url "https://github.com/bnwlkr/wguard/archive/v0.1.2.tar.gz"
-  sha256 "20fa8a77831921bb639fa325399d316e3d5290a6e1f2621d6d6472d44e2f5ce7"
+  url "https://github.com/bnwlkr/wguard/archive/v0.1.3.tar.gz"
+  sha256 "77dc8802e6ce9285e4dfb7e68bff54993b18195a335e56c42b84f53cbd016626"
 
 
   def install
