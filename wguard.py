@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import sys
 
@@ -54,7 +56,7 @@ def unblock(domain_name):
 			hosts_file.write(hosts_file_line + "\n")
 	
 
-parser = argparse.ArgumentParser(description="Easily block websites!")
+parser = argparse.ArgumentParser(description="Easily block websites on Mac")
 args_group = parser.add_mutually_exclusive_group()
 args_group.add_argument("-b", dest="block", nargs='+', help="Block a website")
 args_group.add_argument("-u", dest="unblock", nargs='+', help="Unblock a wesbite")
