@@ -1,2 +1,2 @@
 # wguard
-Easily Block Websites on Mac 🚧
+Easily Block Websites on macOS 🚧
