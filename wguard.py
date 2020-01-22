@@ -35,27 +35,29 @@ def list_blocked():
 	with open(hosts_file_path, 'r') as hosts_file:
 		for hosts_file_line in hosts_file.read().splitlines():
 			if is_blocked_entry(hosts_file_line):
-				blocked.add(get_domain(hosts_file_line))
+				domain = get_domain(hosts_file_line)
+				if not domain.startswith("www"):
+					blocked.add(get_domain(hosts_file_line))
 	print(bcolors.BOLD + "Blocked websites: " + bcolors.ENDC)
 	for domain_name in blocked:
 		print("\t" + domain_name)
 	
 	
-def block(domain_name):
+def block(domain_name, quiet=False):
 	with open(hosts_file_path, "r") as hosts_file:
 		current_hosts_file_contents = hosts_file.read()
 	for hosts_file_line in current_hosts_file_contents.splitlines():
 		if is_blocked_entry(hosts_file_line) and get_domain(hosts_file_line) == domain_name:
-			print(bcolors.OKBLUE + "%s is already blocked" % domain_name + bcolors.ENDC)
+			if not quiet: print(bcolors.OKBLUE + "%s is already blocked" % domain_name + bcolors.ENDC)
 			return
 	new_entry = "%-15s %s\n%-15s %s\n" % (ipv4_block_address, domain_name, ipv6_block_address, domain_name)
 	with open(hosts_file_path, "a") as hosts_file:
 		if current_hosts_file_contents[-1] != "\n":
 			hosts_file.write("\n")
 		hosts_file.write(new_entry)
-	print(bcolors.OKGREEN + "Blocked %s" % domain_name + bcolors.ENDC)
+	if not quiet: print(bcolors.OKGREEN + "Blocked %s" % domain_name + bcolors.ENDC)
 
-def unblock(domain_name):
+def unblock(domain_name, quiet=False):
 	logged_unblock = False
 	with open(hosts_file_path, 'r') as hosts_file:
 		hosts_file_lines = hosts_file.read().splitlines()
@@ -64,12 +66,12 @@ def unblock(domain_name):
 			if is_blocked_entry(hosts_file_line):
 				if get_domain(hosts_file_line) == domain_name:
 					if not logged_unblock:
-						print(bcolors.OKGREEN + "Unblocked %s" % domain_name + bcolors.ENDC)
+						if not quiet: print(bcolors.OKGREEN + "Unblocked %s" % domain_name + bcolors.ENDC)
 						logged_unblock = True
 					continue
 			hosts_file.write(hosts_file_line + "\n")
 	if not logged_unblock:
-		print(bcolors.OKBLUE + "wguard wasn't blocking %s" % domain_name + bcolors.ENDC)
+		if not quiet: print(bcolors.OKBLUE + "wguard wasn't blocking %s" % domain_name + bcolors.ENDC)
 	
 def main():
 	parser = argparse.ArgumentParser(description=bcolors.HEADER + "Easily Block Websites on macOS" + bcolors.ENDC)
@@ -87,11 +89,15 @@ def main():
 		if args.block:
 			for domain_name in args.block:
 				block(domain_name)
+				if len(domain_name.split(".")) == 2:
+					block("www." + domain_name, quiet=True)
 				
 		if args.unblock:
 			for domain_name in args.unblock:
 				unblock(domain_name)
-		
+				if len(domain_name.split(".")) == 2:
+					unblock("www." + domain_name, quiet=True)
+
 		if args.ls:
 			list_blocked()
 		
