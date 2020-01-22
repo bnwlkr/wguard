@@ -31,3 +31,5 @@ sudo wguard -u facebook.com youtube.com
 ```
 wguard -l
 ```
+
+*Note: wguard automatically handles blocking/unblocking the www subdomain*
