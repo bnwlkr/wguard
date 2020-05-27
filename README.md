@@ -16,13 +16,13 @@ brew install wguard
 ### Block sites
 
 ```
-sudo wguard -b facebook.com youtube.com
+sudo wguard -b yahoo.com youtube.com
 ```
 
 ### Unblock sites
 
 ```
-sudo wguard -u facebook.com youtube.com
+sudo wguard -u yahoo.com youtube.com
 ```
 
 ### List Blocked Sites
